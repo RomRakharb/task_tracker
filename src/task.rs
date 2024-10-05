@@ -1,7 +1,7 @@
 use crate::datetime::DateTime;
 
 #[derive(Default, Debug)]
-enum Status {
+pub enum Status {
     #[default]
     Todo,
     InProgress,
