@@ -1,0 +1,7 @@
+{
+  "image":"mcr.microsoft.com/devcontainers/rust:latest",
+  "features": {
+    "ghcr.io/devcontainers/features/github-cli:1": {},
+    "ghcr.io/schlich/devcontainer-features/helix:1": {}
+  }
+}
