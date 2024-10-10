@@ -77,6 +77,8 @@ impl DateTime {
             seconds: time_pool as u8,
         }
     }
+
+    fn test() {}
 }
 
 fn is_leap_year(year: u16) -> bool {
