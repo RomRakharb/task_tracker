@@ -1,0 +1,23 @@
+[
+  {
+    "id" : 1,
+    "description" : "doing stuff 1",
+    "status" : "todo",
+    "createdAt" : "2024-04-13T08:30:00Z",
+    "updatedAt" : "2024-04-13T08:30:00Z"
+  },
+  {
+    "id" : 2,
+    "description" : "doing stuff 1",
+    "status" : "in-progress",
+    "createdAt" : "2024-04-13T08:30:00Z",
+    "updatedAt" : "2024-04-13T08:30:00Z"
+  },
+  {
+    "id" : 3,
+    "description" : "doing stuff 1",
+    "status" : "done",
+    "createdAt" : "2024-04-13T08:30:00Z",
+    "updatedAt" : "2024-04-13T08:30:00Z"
+  }
+]

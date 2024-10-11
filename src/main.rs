@@ -18,5 +18,9 @@ enum Command {
 
 fn main() {
     // let args: Vec<String> = env::args().collect();
-    println!("{:?}", DateTime::now());
+    // println!("{:?}", DateTime::now());
+    let contents = read_file("tasks.json").unwrap();
+    println!("{}", contents);
+    let tasks = Task::from_contents(contents);
+    println!("{:?}", tasks)
 }

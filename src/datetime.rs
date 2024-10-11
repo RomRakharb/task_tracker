@@ -1,6 +1,6 @@
-use std::time::SystemTime;
+use std::{num::ParseIntError, time::SystemTime};
 
-#[derive(Default, Debug)]
+#[derive(Clone, Default, Debug)]
 pub struct DateTime {
     years: u16,
     months: u8,
@@ -78,7 +78,24 @@ impl DateTime {
         }
     }
 
-    fn test() {}
+    pub fn from_iso8601(iso8601: &str) -> Result<Self, ParseIntError> {
+        let datetime = Self {
+            years: iso8601[0..=3].parse()?,
+            months: iso8601[5..=6].parse()?,
+            days: iso8601[8..=9].parse()?,
+            hours: iso8601[11..=12].parse()?,
+            minutes: iso8601[14..=15].parse()?,
+            seconds: iso8601[17..=18].parse()?,
+        };
+        Ok(datetime)
+    }
+
+    pub fn to_iso8601(&self) -> String {
+        format!(
+            "{:04}-{:02}-{:02}T{:02}:{:02}:{:02}Z",
+            self.years, self.months, self.days, self.hours, self.minutes, self.seconds
+        )
+    }
 }
 
 fn is_leap_year(year: u16) -> bool {
