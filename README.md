@@ -1,6 +1,6 @@
 # Task Tracker
 
-*this is my first project in [roadmap.sh's Backend Roadmap](https://roadmap.sh/projects/task-tracker] series*
+*this is my first project in [roadmap.sh's Backend Roadmap](https://roadmap.sh/projects/task-tracker) series*
 
 ## How to use
 
