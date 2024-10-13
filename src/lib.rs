@@ -1,5 +1,6 @@
 use std::fmt::Display;
 
+#[derive(Clone, Debug)]
 pub enum Command {
     Add(String),
     Update(u32, String),
@@ -9,7 +10,7 @@ pub enum Command {
     None,
 }
 
-#[derive(Clone, Default, PartialEq)]
+#[derive(Clone, Default, Debug, PartialEq)]
 pub enum Status {
     #[default]
     Todo,
@@ -40,6 +41,7 @@ impl Status {
 
 pub mod task {
     use crate::datetime::DateTime;
+    use crate::file::write_file;
     use crate::{Command, Status};
 
     #[derive(Default, Clone)]
@@ -54,7 +56,7 @@ pub mod task {
     pub struct Tasks(Vec<Task>);
 
     impl Tasks {
-        pub fn from(contents: String) -> Self {
+        pub fn from_contents(contents: String) -> Self {
             let mut tasks: Vec<Task> = Vec::new();
             let mut task = Task::default();
             for line in contents.lines() {
@@ -88,7 +90,31 @@ pub mod task {
         }
 
         pub fn to_contents(&self) -> String {
-            String::new()
+            let mut contents = String::new();
+            contents.push_str("[\n");
+            for task in self.0.clone() {
+                contents.push_str("  {\n");
+                contents.push_str(format!("    \"id\" : {},\n", task.id).as_str());
+                contents.push_str(
+                    format!("    \"description\" : \"{}\",\n", task.description).as_str(),
+                );
+                contents.push_str(format!("    \"status\" : \"{}\",\n", task.status).as_str());
+                contents.push_str(
+                    format!(
+                        "    \"createdAt\" : \"{}\",\n",
+                        task.created_at.to_iso8601()
+                    )
+                    .as_str(),
+                );
+                contents.push_str(
+                    format!("    \"updatedAt\" : \"{}\"\n", task.updated_at.to_iso8601()).as_str(),
+                );
+                contents.push_str("  },\n");
+            }
+            contents.pop();
+            contents.pop();
+            contents.push_str("\n]");
+            contents
         }
 
         fn add(&mut self, description: String) {
@@ -148,7 +174,7 @@ pub mod task {
                 Some(status) => {
                     for task in self.0.iter().filter(|x| x.status == status) {
                         println!(
-                            "ID: {}\tdescription: {}\tstatus: {}\tcreated at: {}\tupdated at: {}",
+                            "ID: {} description: {} status: {} created at: {} updated at: {}",
                             task.id,
                             task.description,
                             task.status,
@@ -157,7 +183,18 @@ pub mod task {
                         );
                     }
                 }
-                None => {}
+                None => {
+                    for task in self.0.iter() {
+                        println!(
+                            "ID: {} description: {} status: {} created at: {} updated at: {}",
+                            task.id,
+                            task.description,
+                            task.status,
+                            task.created_at.to_iso8601(),
+                            task.updated_at.to_iso8601()
+                        );
+                    }
+                }
             }
         }
 
@@ -170,6 +207,7 @@ pub mod task {
                 Command::List(status) => self.list(status),
                 Command::None => {}
             }
+            let _ = write_file("tasks.json", self.to_contents());
         }
     }
 }
