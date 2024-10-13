@@ -1,5 +1,7 @@
 use std::{env, num::ParseIntError};
 
+use task_cli::file::{read_file, write_file};
+use task_cli::task::Tasks;
 use task_cli::{Command, Status};
 
 fn main() -> Result<(), ParseIntError> {
@@ -35,5 +37,10 @@ fn main() -> Result<(), ParseIntError> {
         },
         &_ => Command::None,
     };
+
+    let contents = read_file("task.json").unwrap();
+    let mut tasks = Tasks::from(contents);
+    tasks.process(command);
+    let _ = write_file("task.json", todo!());
     Ok(())
 }
