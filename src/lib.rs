@@ -138,6 +138,7 @@ pub mod task {
             match self.0.iter_mut().find(|x| x.id == id) {
                 Some(task) => {
                     task.description = description.clone();
+                    task.updated_at = DateTime::now();
                     println!("Task(ID: {}) updated to: {}", id, description);
                 }
                 None => println!("Task(ID: {}) does not exist", id),
@@ -163,6 +164,7 @@ pub mod task {
                         Status::Done => "done",
                     };
                     task.status = status;
+                    task.updated_at = DateTime::now();
                     println!("Task(ID: {}) marked as: {}", id, print_status);
                 }
                 None => println!("Task(ID: {}) does not exist", id),
